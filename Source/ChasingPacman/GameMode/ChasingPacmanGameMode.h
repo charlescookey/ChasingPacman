@@ -28,5 +28,8 @@ private:
 
 	UPROPERTY(EditAnywhere, Category = "Player Stats")
 	int32 PacmanLives = 3;
+public:
+
+	int32 GetPacmanLives() const { return PacmanLives; }
 
 };

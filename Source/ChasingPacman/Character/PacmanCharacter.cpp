@@ -13,6 +13,7 @@
 #include "ChasingPacman/Actor/Pickups.h"
 #include "Kismet/GameplayStatics.h"
 #include "ChasingPacman/Character/BaseCharacter.h"
+#include "GameFramework/CharacterMovementComponent.h"
 
 // Sets default values
 APacmanCharacter::APacmanCharacter()
@@ -55,7 +56,6 @@ void APacmanCharacter::BeginPlay()
 	PacmanAIController = PacmanAIController == nullptr ? Cast<APacmanAIController>(Controller) : PacmanAIController;
 
 	if (PacmanAIController) {
-		UE_LOG(LogTemp, Warning, TEXT("pacman ai controller is active"));
 		PacmanAIController->UpdateNearestPickUp(GetActorLocation());
 	}
 
@@ -118,12 +118,10 @@ void APacmanCharacter::ReceiveDamage(AActor* DamagedActor, float Damage, const U
 {
 	if (!alive)return;
 	Health = FMath::Clamp(Health - Damage, 0.f, MaxHealth);
-	UE_LOG(LogTemp, Warning, TEXT("Applied damage to pacman, Health : %f") , Health);
 	UpdateHealthHUD();
 
 	if (Health == 0.f) {
 		alive = false;
-		UE_LOG(LogTemp, Error, TEXT("Pacman Is Dead"));
 		AChasingPacmanGameMode* PacmanGameMode = GetWorld()->GetAuthGameMode<AChasingPacmanGameMode>();
 		if (PacmanGameMode) {
 			PacmanAIController = PacmanAIController == nullptr ? Cast<APacmanAIController>(Controller) : PacmanAIController;
@@ -165,7 +163,6 @@ void APacmanCharacter::PoweredUp(AActor* PickUp) {
 	if (!HasAuthority())return;
 	IsPoweredUp = true;
 	if (BaseMesh && BlueMaterialInstance) {
-		UE_LOG(LogTemp, Warning, TEXT("Attempted to change the Material Instance"));
 		BaseMesh->SetMaterial(0, BlueMaterialInstance);
 	}
 	GetWorldTimerManager().SetTimer(PowerUpTimer, this, &APacmanCharacter::PowerupTimerFinished, PowerUpTimerLenght);
@@ -202,3 +199,4 @@ void APacmanCharacter::OnRep_PoweredUpState() {
 		}
 	}
 }
+

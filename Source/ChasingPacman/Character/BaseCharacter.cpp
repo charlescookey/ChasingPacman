@@ -61,7 +61,6 @@ ABaseCharacter::ABaseCharacter()
 // Called when the game starts or when spawned
 void ABaseCharacter::BeginPlay()
 {
-	ActiveController = false;
 	Super::BeginPlay();
 	Health = MaxHealth;
 	UpdateHUDHealth();
@@ -70,12 +69,6 @@ void ABaseCharacter::BeginPlay()
 	if (HasAuthority())
 	{
 		OnTakeAnyDamage.AddDynamic(this, &ABaseCharacter::ReceiveDamage);
-	}
-}
-
-void ABaseCharacter::SetHUDOnceControllerIsActive() {
-	if (!ActiveController) {
-		UpdateHUDHealth();
 	}
 }
 
@@ -90,7 +83,6 @@ void ABaseCharacter::Tick(float DeltaTime)
 		//HitTarget = HitResult.ImpactPoint;
 
 		SetHUDCrosshairs(DeltaTime);
-		SetHUDOnceControllerIsActive();
 	}
 
 }
@@ -257,11 +249,10 @@ void ABaseCharacter::ReceiveDamage(AActor* DamagedActor, float Damage, const UDa
 	//add elimination once we add player statte
 
 	if (Health == 0.f) {
+		Stop();
 		alive = false;
-		UE_LOG(LogTemp, Error, TEXT("Player Is Dead"));
 		AChasingPacmanGameMode* PacmanGameMode = GetWorld()->GetAuthGameMode<AChasingPacmanGameMode>();
 		if (PacmanGameMode) {
-			UE_LOG(LogTemp, Error, TEXT("Pacman gamemode active"));
 			ChasingPacmanPlayerController = ChasingPacmanPlayerController == nullptr ? Cast<AChasingPacmanPlayerController>(Controller) : ChasingPacmanPlayerController;
 
 			PacmanGameMode->PlayerEliminated(this, ChasingPacmanPlayerController, InstigatorController);
@@ -278,10 +269,8 @@ void ABaseCharacter::OnRep_Health()
 }
 
 void ABaseCharacter::ShakeCamera() {
-	UE_LOG(LogTemp, Error, TEXT("Rep - Is Locally COntrolled?"));
 	if (IsLocallyControlled()) {
 		ChasingPacmanPlayerController = ChasingPacmanPlayerController == nullptr ? Cast<AChasingPacmanPlayerController>(Controller) : ChasingPacmanPlayerController;
-		UE_LOG(LogTemp, Error, TEXT("rep - Yes, It is Locally COntrolled"));
 		if (ChasingPacmanPlayerController && HitCameraShakeClass) {
 			ChasingPacmanPlayerController->ClientStartCameraShake(HitCameraShakeClass);
 		}
@@ -293,7 +282,6 @@ void ABaseCharacter::UpdateHUDHealth()
 	ChasingPacmanPlayerController = ChasingPacmanPlayerController == nullptr ? Cast<AChasingPacmanPlayerController>(Controller) : ChasingPacmanPlayerController;
 	if (ChasingPacmanPlayerController)
 	{
-		ActiveController = true;
 		ChasingPacmanPlayerController->SetHUDHealth(Health, MaxHealth);
 	}
 }
@@ -383,4 +371,16 @@ void ABaseCharacter::SetHUDCrosshairs(float DeltaTime)
 			HUD->SetHUDPackage(HUDPackage);
 		}
 	}
+}
+
+
+void ABaseCharacter::Stop() {
+	// Disable character movement
+	GetCharacterMovement()->DisableMovement();
+	GetCharacterMovement()->StopMovementImmediately();
+	if (ChasingPacmanPlayerController)
+	{
+		DisableInput(ChasingPacmanPlayerController);
+	}
+
 }

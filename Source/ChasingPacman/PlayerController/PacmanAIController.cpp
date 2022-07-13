@@ -56,7 +56,6 @@ void APacmanAIController::UpdateList(AActor* Pickup , FVector CurrentLocation) {
     if (Picksups.Num() == 0) {
         AChasingPacmanGameMode* PacmanGameMode = GetWorld()->GetAuthGameMode<AChasingPacmanGameMode>();
         if (PacmanGameMode) {
-            UE_LOG(LogTemp, Warning, TEXT("called EndGame on game mode"));
             PacmanGameMode->EndGame();
         }
     }

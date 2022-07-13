@@ -42,6 +42,8 @@ public:
 	UFUNCTION(NetMulticast, Reliable)
 	void MulticastDied();
 
+
+
 private:
 	UPROPERTY(VisibleAnywhere, BluePrintReadOnly, Category = "Pawn Components", meta = (AllowPrivateAccess = "true"))
 	UStaticMeshComponent* BaseMesh;

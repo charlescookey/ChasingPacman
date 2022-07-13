@@ -56,17 +56,17 @@ void ATankHUD::DrawHUD()
 
 		if (HUDPackage.CrosshairsCenter)
 		{
-			FVector2D Spread(0.f, 0.f);
+			FVector2D Spread(0.f, 20.f);
 			DrawCrosshair(HUDPackage.CrosshairsCenter, ViewportCenter, Spread, HUDPackage.CrosshairsColor);
 		}
 		if (HUDPackage.CrosshairsLeft)
 		{
-			FVector2D Spread(-SpreadScaled, 0.f);
+			FVector2D Spread(-SpreadScaled, 20.f);
 			DrawCrosshair(HUDPackage.CrosshairsLeft, ViewportCenter, Spread, HUDPackage.CrosshairsColor);
 		}
 		if (HUDPackage.CrosshairsRight)
 		{
-			FVector2D Spread(SpreadScaled, 0.f);
+			FVector2D Spread(SpreadScaled, 20.f);
 			DrawCrosshair(HUDPackage.CrosshairsRight, ViewportCenter, Spread, HUDPackage.CrosshairsColor);
 		}
 	}

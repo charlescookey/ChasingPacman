@@ -16,8 +16,8 @@ class CHASINGPACMAN_API AChasingPacmanPlayerController : public APlayerControlle
 
 public:
 	void SetHUDHealth(float Health, float MaxHealth);
-	//virtual void OnPossess(APawn* InPawn) override;
-	//we can use on posses instad of using poll initto set the hud heath to 100 since that is dont e in tick and seems to be an expensive operation of sorts
+	
+	virtual void OnPossess(APawn* InPawn) override;
 
 	void SetPacmanLives(int32 LivesLeft);
 
@@ -36,7 +36,7 @@ private:
 	bool bShouldShowEndScreen = false;
 	
 	UPROPERTY(ReplicatedUsing = OnRep_PacmanLives)
-	int32 PacmanLives = 3;
+	int32 PacmanLives = 4;
 
 	UFUNCTION()
 	void OnRep_EndScreen();

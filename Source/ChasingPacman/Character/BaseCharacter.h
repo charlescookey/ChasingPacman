@@ -92,9 +92,6 @@ private:
 
 	void ShakeCamera();
 
-	bool ActiveController = false;
-
-	void SetHUDOnceControllerIsActive();
 
 public:
 	virtual void Shoot();
@@ -122,6 +119,8 @@ public:
 
 	UFUNCTION(NetMulticast, Reliable)
 	void MulticastEliminated();
+
+	void Stop();
 
 
 private:
@@ -195,6 +194,10 @@ private:
 
 protected:
 	void SetHUDCrosshairs(float DeltaTime);
+
+public:
+	FORCEINLINE float GetHealth() const { return Health; }
+	FORCEINLINE float GetMaxHealth() const { return MaxHealth; }
 
 
 	
