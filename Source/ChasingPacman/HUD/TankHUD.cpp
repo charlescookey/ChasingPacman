@@ -8,12 +8,28 @@
 #include "ChasingPacman/HUD/LoseScreenWidget.h"
 #include "ChasingPacman/HUD/WinScreenWidget.h"
 
+#include"ChasingPacman/PlayerController/ChasingPacmanPlayerController.h"
+
 
 void ATankHUD::BeginPlay()
 {
 	Super::BeginPlay();
 
 	AddTankOverlay();
+
+	UE_LOG(LogTemp, Display, TEXT("I want to see when this will be called"));
+	
+	SetPacmanLives();
+
+}
+
+void ATankHUD::SetPacmanLives() {
+	AChasingPacmanPlayerController* PlayerController = Cast<AChasingPacmanPlayerController>(PlayerOwner);
+	UE_LOG(LogTemp, Display, TEXT("trying to set pacman lives"));
+	if (PlayerController) {
+		UE_LOG(LogTemp, Display, TEXT("PlayerOwner was castable"));
+		PlayerController->SetPacmanLives(PlayerController->GetPacmanLives());
+	}
 }
 
 void ATankHUD::AddTankOverlay()

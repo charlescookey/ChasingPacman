@@ -44,6 +44,8 @@ private:
 	UFUNCTION()
 	void OnRep_PacmanLives();
 
+public:
+	FORCEINLINE int32 GetPacmanLives() const { return PacmanLives; }
 
 	
 };

@@ -30,6 +30,6 @@ private:
 	int32 PacmanLives = 3;
 public:
 
-	int32 GetPacmanLives() const { return PacmanLives; }
+	FORCEINLINE int32 GetPacmanLives() const { return PacmanLives; }
 
 };

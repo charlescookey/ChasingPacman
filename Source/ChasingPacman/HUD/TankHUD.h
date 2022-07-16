@@ -53,6 +53,8 @@ protected:
 	virtual void BeginPlay() override;
 	void AddTankOverlay();
 
+	void SetPacmanLives();
+
 private:
 	FHUDPackage HUDPackage;
 	void DrawCrosshair(UTexture2D* Texture, FVector2D ViewportCenter, FVector2D Spread, FLinearColor CrosshairColor);

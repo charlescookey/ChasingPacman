@@ -17,6 +17,12 @@ void AChasingPacmanPlayerController::BeginPlay()
 
 	TankHUD = Cast<ATankHUD>(GetHUD());
 	UE_LOG(LogTemp, Warning, TEXT("Begin play in rthe controller"));
+	
+
+	AChasingPacmanGameMode* PacmanGameMode = GetWorld()->GetAuthGameMode<AChasingPacmanGameMode>();
+	if (PacmanGameMode) {
+		PacmanLives = PacmanGameMode->GetPacmanLives();
+	}
 }
 
 void AChasingPacmanPlayerController::OnPossess(APawn* InPawn)
@@ -26,13 +32,6 @@ void AChasingPacmanPlayerController::OnPossess(APawn* InPawn)
 	if (BaseCharacter)
 	{
 		SetHUDHealth(BaseCharacter->GetHealth(), BaseCharacter->GetMaxHealth());
-	}
-
-	UE_LOG(LogTemp, Warning, TEXT("Tried setting the lives text"));
-	AChasingPacmanGameMode* PacmanGameMode = GetWorld()->GetAuthGameMode<AChasingPacmanGameMode>();
-	if (PacmanGameMode) {
-		UE_LOG(LogTemp, Warning, TEXT("entered the acc try Tried setting the lives text"));
-		SetPacmanLives(PacmanGameMode->GetPacmanLives());
 	}
 	bShowMouseCursor = false;
 }
