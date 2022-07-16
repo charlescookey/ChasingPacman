@@ -5,6 +5,9 @@
 #include "GameFramework/PlayerController.h"
 #include "TankOverlay.h"
 
+#include "ChasingPacman/HUD/LoseScreenWidget.h"
+#include "ChasingPacman/HUD/WinScreenWidget.h"
+
 
 void ATankHUD::BeginPlay()
 {
@@ -28,7 +31,7 @@ void ATankHUD::AddEndGame()
 	APlayerController* PlayerController = GetOwningPlayerController();
 	if (PlayerController && EndGameClass)
 	{
-		EndGame = CreateWidget<UUserWidget>(PlayerController, EndGameClass);
+		EndGame = CreateWidget<ULoseScreenWidget>(PlayerController, EndGameClass);
 		EndGame->AddToViewport();
 	}
 }
@@ -38,7 +41,7 @@ void ATankHUD::AddWinGame()
 	APlayerController* PlayerController = GetOwningPlayerController();
 	if (PlayerController && WinGameClass)
 	{
-		WinGame = CreateWidget<UUserWidget>(PlayerController, WinGameClass);
+		WinGame = CreateWidget<UWinScreenWidget>(PlayerController, WinGameClass);
 		WinGame->AddToViewport();
 	}
 }

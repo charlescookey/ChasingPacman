@@ -38,14 +38,14 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Player Stats")
 	TSubclassOf<class UUserWidget> EndGameClass;
 
-	UUserWidget* EndGame;
+	class ULoseScreenWidget* EndGame;
 
 	void AddEndGame();
 	
 	UPROPERTY(EditAnywhere, Category = "Player Stats")
 	TSubclassOf<class UUserWidget> WinGameClass;
 
-	UUserWidget* WinGame;
+	class UWinScreenWidget* WinGame;
 
 	void AddWinGame();
 

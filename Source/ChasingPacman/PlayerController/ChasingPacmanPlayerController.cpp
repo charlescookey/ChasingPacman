@@ -34,6 +34,7 @@ void AChasingPacmanPlayerController::OnPossess(APawn* InPawn)
 		UE_LOG(LogTemp, Warning, TEXT("entered the acc try Tried setting the lives text"));
 		SetPacmanLives(PacmanGameMode->GetPacmanLives());
 	}
+	bShowMouseCursor = false;
 }
 
 void AChasingPacmanPlayerController::SetHUDHealth(float Health, float MaxHealth)
@@ -66,6 +67,7 @@ void AChasingPacmanPlayerController::SetEndGame() {
 
 	if (TankHUD) {
 		TankHUD->AddEndGame();
+		bShowMouseCursor = true;
 	}
 }
 
@@ -80,6 +82,8 @@ void AChasingPacmanPlayerController::OnRep_EndScreen() {
 
 	if (TankHUD) {
 		TankHUD->AddEndGame();
+		bShowMouseCursor = true;
+
 	}
 }
 
@@ -101,6 +105,7 @@ void AChasingPacmanPlayerController::SetPacmanLives(int32 LivesLeft) {
 		if (TankHUD) {
 			
 			TankHUD->AddWinGame();
+			bShowMouseCursor = true;
 		}
 		return;
 	}
@@ -119,6 +124,7 @@ void AChasingPacmanPlayerController::OnRep_PacmanLives() {
 	if (PacmanLives == 0) {
 		if (TankHUD) {
 			TankHUD->AddWinGame();
+			bShowMouseCursor = true;
 		}
 		return;
 	}

@@ -108,10 +108,11 @@ void APacmanAIController::UnPowered(FVector CurrentLocation) {
 
 FVector APacmanAIController::NearestActor() {
     MyCharacter = MyCharacter == nullptr ? GetCharacter() : MyCharacter;
-    if (!MyCharacter)return FVector(-1 ,-1,-1);
+    if (!MyCharacter)return FVector(0 ,0,72);
     double distance = TNumericLimits<double>::Max();
-    FVector CurrentLocation = GetCharacter()->GetActorLocation();
-    FVector MoveLocation;
+
+    FVector CurrentLocation = MyCharacter->GetActorLocation();
+    FVector MoveLocation (0,0,72);
     for (AActor* player : Players) {
         if (player) {
             double temp = FVector::Dist(CurrentLocation, player->GetActorLocation());
