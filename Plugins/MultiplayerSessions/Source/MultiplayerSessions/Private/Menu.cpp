@@ -61,6 +61,10 @@ bool UMenu::Initialize()
 	{
 		JoinButton->OnClicked.AddDynamic(this, &ThisClass::JoinButtonClicked);
 	}
+	if (SingleButton)
+	{
+		SingleButton->OnClicked.AddDynamic(this, &ThisClass::SingleButtonClicked);
+	}
 
 	return true;
 }
@@ -73,12 +77,13 @@ void UMenu::OnLevelRemovedFromWorld(ULevel* InLevel, UWorld* InWorld)
 
 void UMenu::OnCreateSession(bool bWasSuccessful)
 {
+	FString temp = multiplayer ? PathToLobby : PathToMain;
 	if (bWasSuccessful)
 	{
 		UWorld* World = GetWorld();
 		if (World)
 		{
-			World->ServerTravel(PathToLobby);
+			World->ServerTravel(temp);
 		}
 	}
 	else
@@ -93,6 +98,7 @@ void UMenu::OnCreateSession(bool bWasSuccessful)
 			);
 		}
 		HostButton->SetIsEnabled(true);
+		SingleButton->SetIsEnabled(true);
 	}
 }
 
@@ -149,7 +155,9 @@ void UMenu::OnStartSession(bool bWasSuccessful)
 
 void UMenu::HostButtonClicked()
 {
+	multiplayer = true;
 	HostButton->SetIsEnabled(false);
+	SingleButton->SetIsEnabled(false);
 	if (MultiplayerSessionsSubsystem)
 	{
 		MultiplayerSessionsSubsystem->CreateSession(NumPublicConnections, MatchType);
@@ -178,5 +186,17 @@ void UMenu::MenuTearDown()
 			PlayerController->SetInputMode(InputModeData);
 			PlayerController->SetShowMouseCursor(false);
 		}
+	}
+}
+
+
+void UMenu::SingleButtonClicked() {
+	multiplayer = false;
+	HostButton->SetIsEnabled(false);
+	SingleButton->SetIsEnabled(false);
+
+	if (MultiplayerSessionsSubsystem)
+	{
+		MultiplayerSessionsSubsystem->CreateSession(NumPublicConnections, MatchType);
 	}
 }

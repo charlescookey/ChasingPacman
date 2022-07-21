@@ -25,9 +25,7 @@ void ATankHUD::BeginPlay()
 
 void ATankHUD::SetPacmanLives() {
 	AChasingPacmanPlayerController* PlayerController = Cast<AChasingPacmanPlayerController>(PlayerOwner);
-	UE_LOG(LogTemp, Display, TEXT("trying to set pacman lives"));
 	if (PlayerController) {
-		UE_LOG(LogTemp, Display, TEXT("PlayerOwner was castable"));
 		PlayerController->SetPacmanLives(PlayerController->GetPacmanLives());
 	}
 }

@@ -39,7 +39,6 @@ void AProjectile::BeginPlay()
 {
 	Super::BeginPlay();
 
-	DrawDebugSphere(GetWorld(), GetActorLocation(), 10, 1, FColor::Red , true , 5.f);
 
 	if (Tracer)
 	{
@@ -84,7 +83,6 @@ void AProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimi
 void AProjectile::Destroyed()
 {
 	Super::Destroyed();
-	DrawDebugSphere(GetWorld(), GetActorLocation() ,30, 1, FColor::Blue , true , 10.f);
 
 	if (ImpactParticles)
 	{

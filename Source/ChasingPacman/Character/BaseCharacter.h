@@ -28,6 +28,8 @@ protected:
 	void RotateTurret(float Value);
 	void FireButtonPressed();
 	void FireButtonReleased();
+
+	void ReturnToMainMenu();
 	
 	void UpdateHUDHealth();
 

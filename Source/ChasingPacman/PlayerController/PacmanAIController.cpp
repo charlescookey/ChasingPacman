@@ -17,10 +17,8 @@ void APacmanAIController::BeginPlay()
     Super::BeginPlay();
 
     UGameplayStatics::GetAllActorsOfClass(GetWorld(), APickups::StaticClass(), Picksups);
-    UE_LOG(LogTemp, Warning, TEXT("no of pickups in aicontroller world roght now: %i"), Picksups.Num());
 
     UGameplayStatics::GetAllActorsOfClass(GetWorld(), ABaseCharacter::StaticClass(), Players);
-    UE_LOG(LogTemp, Warning, TEXT("no of players in aicontroller world roght now: %i"), Players.Num());
 
     
     if (AIBehavior) {
@@ -49,8 +47,6 @@ void APacmanAIController::UpdateNearestPickUp(FVector CurrentLocation){
 
 void APacmanAIController::UpdateList(AActor* Pickup , FVector CurrentLocation) {
     int removed = Picksups.Remove(Pickup);
-    UE_LOG(LogTemp, Warning, TEXT("no of pickups deleted: %i"), removed);
-    UE_LOG(LogTemp, Warning, TEXT("no of pickups left in game: %i"), Picksups.Num());
 
 
     if (Picksups.Num() == 0) {
@@ -75,6 +71,13 @@ void APacmanAIController::Powered(AActor* Pickup , FVector CurrentLocation) {
 
     if (Pickup) {
         Pickup->Destroy();
+    }
+
+    if (Picksups.Num() == 0) {
+        AChasingPacmanGameMode* PacmanGameMode = GetWorld()->GetAuthGameMode<AChasingPacmanGameMode>();
+        if (PacmanGameMode) {
+            PacmanGameMode->EndGame();
+        }
     }
 
     UpdateNearestActor(CurrentLocation);
@@ -123,4 +126,14 @@ FVector APacmanAIController::NearestActor() {
         }
     }
     return MoveLocation;
+}
+
+void APacmanAIController::UpdateActorList(AActor* EliminatedCharacter) {
+    Players.Remove(EliminatedCharacter);
+    
+    GetWorldTimerManager().SetTimer(UpdateTimer, this, &APacmanAIController::UpdateActorListCall, 4.0f);
+}
+
+void APacmanAIController::UpdateActorListCall() {
+    UGameplayStatics::GetAllActorsOfClass(GetWorld(), ABaseCharacter::StaticClass(), Players);
 }

@@ -43,13 +43,21 @@ private:
 	UPROPERTY(meta = (BindWidget))
 	UButton* JoinButton;
 
+	UPROPERTY(meta = (BindWidget))
+	UButton* SingleButton;
+
 	UFUNCTION()
 	void HostButtonClicked();
 
 	UFUNCTION()
 	void JoinButtonClicked();
 
+	UFUNCTION()
+	void SingleButtonClicked();
+
 	void MenuTearDown();
+
+	bool multiplayer = false;
 
 	// The subsystem designed to handle all online session functionality
 	class UMultiplayerSessionsSubsystem* MultiplayerSessionsSubsystem;
@@ -57,4 +65,5 @@ private:
 	int32 NumPublicConnections{4};
 	FString MatchType{TEXT("FreeForAll")};
 	FString PathToLobby{TEXT("")};
+	FString PathToMain{TEXT("/Game/Maps/Test")};
 };

@@ -5,6 +5,8 @@
 #include "Components/Button.h"
 #include "Kismet/GameplayStatics.h"
 
+#include "ChasingPacman/GameMode/ChasingPacmanGameMode.h"
+
 void ULoseScreenWidget::MainMenuButtonClicked() {
 	UGameplayStatics::OpenLevel(GetWorld(), FName("Startup"));
 }
@@ -15,11 +17,12 @@ void ULoseScreenWidget::NextLevelButtonClicked() {
 	UWorld* World = GetWorld();
 	if (World)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Found world from here lool"));
-		//bUseSeamlessTravel = true;
-		World->ServerTravel(FString("/Game/Maps/Lobby?listen"));
-	}
+		AChasingPacmanGameMode* GameMode = World->GetAuthGameMode< AChasingPacmanGameMode>();
 
+		if (GameMode) {
+			GameMode->RestartGame();
+		}
+	}
 }
 
 bool ULoseScreenWidget::Initialize() {

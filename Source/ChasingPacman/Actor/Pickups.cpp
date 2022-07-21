@@ -41,16 +41,11 @@ void APickups::Tick(float DeltaTime)
 void APickups::OnOverlap(AActor* OverlappedActor, AActor* OtherActor) {
 	APacmanCharacter* pac = Cast<APacmanCharacter>(OtherActor);
 	if (pac) {
-		UE_LOG(LogTemp, Error, TEXT("This actor %s overlappeedby pacman"), *OverlappedActor->GetName());
 		if (IsPowerUp) {
 			pac->PoweredUp(OverlappedActor);
-			UE_LOG(LogTemp, Error, TEXT("Pacman powered up"));
 		}else {
 			pac->PickUpEaten(OverlappedActor);
 		}
-	}
-	else {
-		UE_LOG(LogTemp, Error, TEXT("This actor %s overlappeed by %s not pacman"), *OverlappedActor->GetName() , *OtherActor->GetName());
 	}
 }
 

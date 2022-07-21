@@ -41,6 +41,7 @@ void APacmanCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 
+	Health = MaxHealth;
 	if (HasAuthority())
 	{
 		OnTakeAnyDamage.AddDynamic(this, &APacmanCharacter::ReceiveDamage);
@@ -81,6 +82,7 @@ void APacmanCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Out
 
 void APacmanCharacter::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
+	UE_LOG(LogTemp, Warning, TEXT("Hit sth at this location, mine : %s"), *GetActorLocation().ToString());
 	if (OtherActor && IsPoweredUp) {
 		ABaseCharacter* TankCharacter = Cast<ABaseCharacter>(OtherActor);
 		if (TankCharacter && TankCharacter->alive) {
@@ -121,6 +123,7 @@ void APacmanCharacter::ReceiveDamage(AActor* DamagedActor, float Damage, const U
 	UpdateHealthHUD();
 
 	if (Health == 0.f) {
+		Stop();
 		alive = false;
 		AChasingPacmanGameMode* PacmanGameMode = GetWorld()->GetAuthGameMode<AChasingPacmanGameMode>();
 		if (PacmanGameMode) {
@@ -200,3 +203,12 @@ void APacmanCharacter::OnRep_PoweredUpState() {
 	}
 }
 
+void APacmanCharacter::Stop() {
+	// Disable character movement
+	GetCharacterMovement()->DisableMovement();
+	GetCharacterMovement()->StopMovementImmediately();
+	if (PacmanAIController)
+	{
+		PacmanAIController->StopMovement();
+	}
+}

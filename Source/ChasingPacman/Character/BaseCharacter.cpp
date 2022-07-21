@@ -105,9 +105,13 @@ void ABaseCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 
 	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &ABaseCharacter::FireButtonPressed);
 	PlayerInputComponent->BindAction("Fire", IE_Released, this, &ABaseCharacter::FireButtonReleased);
+	PlayerInputComponent->BindAction("Quit", IE_Released, this, &ABaseCharacter::ReturnToMainMenu);
 
 }
 
+void ABaseCharacter::ReturnToMainMenu() {
+	UGameplayStatics::OpenLevel(GetWorld(), FName("Startup"));
+}
 
 
 void ABaseCharacter::RotateTurret(float Value) {
@@ -202,13 +206,11 @@ bool ABaseCharacter::CanFire()
 }
 
 void ABaseCharacter::Eliminated() {
-	UE_LOG(LogTemp, Warning, TEXT("This actor was elimianted"));
 	MulticastEliminated();
 	GetWorldTimerManager().SetTimer(ElimantionTimer, this, &ABaseCharacter::EliminationTimerFinished, EliminationDelay);
 }
 
 void ABaseCharacter::EliminationTimerFinished() {
-	UE_LOG(LogTemp, Error, TEXT("Elim Timer Finished"));
 	AChasingPacmanGameMode* PacmanGameMode = GetWorld()->GetAuthGameMode<AChasingPacmanGameMode>();
 	if (PacmanGameMode) {
 		PacmanGameMode->RequestRespawn(this, Controller);
@@ -241,7 +243,6 @@ void ABaseCharacter::ReceiveDamage(AActor* DamagedActor, float Damage, const UDa
 {
 	Health = FMath::Clamp(Health - Damage, 0.f, MaxHealth);
 	UpdateHUDHealth();
-	UE_LOG(LogTemp, Warning, TEXT("Health : %f") , Health);
 	//see if matinee shake is available
 
 
@@ -299,7 +300,8 @@ void ABaseCharacter::OnRep_Ammo()
 
 void ABaseCharacter::Shoot()
 {
-	SpendRound();
+	//SpendRound();
+	//right now ammo is unlimited till we add ammo pickups and all
 
 	if (!HasAuthority()) return;
 
@@ -382,5 +384,4 @@ void ABaseCharacter::Stop() {
 	{
 		DisableInput(ChasingPacmanPlayerController);
 	}
-
 }

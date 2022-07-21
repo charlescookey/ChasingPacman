@@ -42,6 +42,8 @@ public:
 	UFUNCTION(NetMulticast, Reliable)
 	void MulticastDied();
 
+	void Stop();
+
 
 
 private:

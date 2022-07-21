@@ -12,12 +12,11 @@ void UWinScreenWidget::MainMenuButtonClicked() {
 
 
 void UWinScreenWidget::NextLevelButtonClicked() {
+	FString PathToNext{ TEXT("/Game/Maps/Main") };
 	UWorld* World = GetWorld();
 	if (World)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Found world from here lool"));
-		//bUseSeamlessTravel = true;
-		World->ServerTravel(FString("/Game/Maps/Lobby?listen"));
+		World->ServerTravel(PathToNext);
 	}
 
 }

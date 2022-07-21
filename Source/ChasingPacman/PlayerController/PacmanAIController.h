@@ -16,6 +16,10 @@ class CHASINGPACMAN_API APacmanAIController : public AAIController
 public:
 	void UpdateList(AActor* , FVector);
 
+	void UpdateActorList(AActor *);
+
+	void UpdateActorListCall();
+
 	void UpdateNearestPickUp(FVector);
 
 	void UpdateNearestActor(FVector);
@@ -25,6 +29,8 @@ public:
 	void Powered(AActor* , FVector);
 
 	void UnPowered(FVector);
+
+	FTimerHandle UpdateTimer;
 
 
 protected:

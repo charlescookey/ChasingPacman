@@ -36,7 +36,7 @@ private:
 	bool bShouldShowEndScreen = false;
 	
 	UPROPERTY(ReplicatedUsing = OnRep_PacmanLives)
-	int32 PacmanLives = 4;
+	int32 PacmanLives = 3;
 
 	UFUNCTION()
 	void OnRep_EndScreen();

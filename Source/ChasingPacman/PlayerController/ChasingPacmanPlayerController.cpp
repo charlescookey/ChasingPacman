@@ -16,7 +16,6 @@ void AChasingPacmanPlayerController::BeginPlay()
 	Super::BeginPlay();
 
 	TankHUD = Cast<ATankHUD>(GetHUD());
-	UE_LOG(LogTemp, Warning, TEXT("Begin play in rthe controller"));
 	
 
 	AChasingPacmanGameMode* PacmanGameMode = GetWorld()->GetAuthGameMode<AChasingPacmanGameMode>();
@@ -51,7 +50,6 @@ void AChasingPacmanPlayerController::SetHUDHealth(float Health, float MaxHealth)
 		TankHUD->TankOverlay->HealthBar->SetPercent(HealthPercent);
 		FString HealthText = FString::Printf(TEXT("%d/%d"), FMath::CeilToInt(Health), FMath::CeilToInt(MaxHealth));
 		TankHUD->TankOverlay->HealthText->SetText(FText::FromString(HealthText));
-		UE_LOG(LogTemp, Warning, TEXT("Should appear att the beginning lool"));
 	}
 }
 
@@ -96,7 +94,6 @@ void AChasingPacmanPlayerController::GetLifetimeReplicatedProps(TArray<FLifetime
 
 
 void AChasingPacmanPlayerController::SetPacmanLives(int32 LivesLeft) {
-	UE_LOG(LogTemp, Warning, TEXT("Lives left: %i") , LivesLeft);
 	PacmanLives = LivesLeft;
 	TankHUD = TankHUD == nullptr ? Cast<ATankHUD>(GetHUD()) : TankHUD;
 
@@ -108,10 +105,8 @@ void AChasingPacmanPlayerController::SetPacmanLives(int32 LivesLeft) {
 		}
 		return;
 	}
-	UE_LOG(LogTemp, Warning, TEXT("Pacman Lives left: %i"), PacmanLives);
 
 	if (TankHUD && TankHUD->TankOverlay && TankHUD->TankOverlay->PacmanLives) {
-		UE_LOG(LogTemp, Warning, TEXT("We're setting Pacman lives : %d"), PacmanLives);
 		FString PacmanLivesText = FString::Printf(TEXT("%d"), PacmanLives);
 		TankHUD->TankOverlay->PacmanLives->SetText(FText::FromString(PacmanLivesText));
 	}
@@ -119,7 +114,6 @@ void AChasingPacmanPlayerController::SetPacmanLives(int32 LivesLeft) {
 
 void AChasingPacmanPlayerController::OnRep_PacmanLives() {
 	TankHUD = TankHUD == nullptr ? Cast<ATankHUD>(GetHUD()) : TankHUD;
-	UE_LOG(LogTemp, Warning, TEXT("rep Lives left: %i"), PacmanLives);
 	if (PacmanLives == 0) {
 		if (TankHUD) {
 			TankHUD->AddWinGame();
@@ -129,7 +123,6 @@ void AChasingPacmanPlayerController::OnRep_PacmanLives() {
 	}
 
 	if (TankHUD && TankHUD->TankOverlay && TankHUD->TankOverlay->PacmanLives) {
-		UE_LOG(LogTemp, Warning, TEXT("We're setting Pacman lives : %d"), PacmanLives);
 		FString PacmanLivesText = FString::Printf(TEXT("%d"), PacmanLives);
 		TankHUD->TankOverlay->PacmanLives->SetText(FText::FromString(PacmanLivesText));
 	}

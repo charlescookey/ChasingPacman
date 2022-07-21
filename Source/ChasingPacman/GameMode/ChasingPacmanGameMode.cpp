@@ -18,22 +18,14 @@
 
 void AChasingPacmanGameMode::PlayerEliminated(ABaseCharacter* ElimmedCharacter, AChasingPacmanPlayerController* VictimController, AController* AttackerController)
 {
-	UE_LOG(LogTemp, Error, TEXT("Player eliminated called"));
 	if (AttackerController == nullptr)return;// || AttackerController->PlayerState == nullptr) return;
 	if (VictimController == nullptr)return;// || VictimController->PlayerState == nullptr) return;
 	
-	//ABlasterPlayerState* AttackerPlayerState = AttackerController ? Cast<ABlasterPlayerState>(AttackerController->PlayerState) : nullptr;
-	//ABlasterPlayerState* VictimPlayerState = VictimController ? Cast<ABlasterPlayerState>(VictimController->PlayerState) : nullptr;
-
-	/*if (AttackerPlayerState && AttackerPlayerState != VictimPlayerState)
-	{
-		AttackerPlayerState->AddToScore(1.f);
+	APacmanAIController* PacmanAIController = Cast<APacmanAIController>(AttackerController);
+	if (PacmanAIController) {
+		PacmanAIController->UpdateActorList(ElimmedCharacter);
 	}
-	if (VictimPlayerState)
-	{
-		VictimPlayerState->AddToDefeats(1);
-	}*/
-	UE_LOG(LogTemp, Error, TEXT("acttack or victim null"));
+
 
 	if (ElimmedCharacter)
 	{
@@ -99,7 +91,6 @@ void AChasingPacmanGameMode::PacmanDied(APacmanCharacter* ElimmedPacman, APacman
 				AChasingPacmanPlayerController* PlayerController = Cast<AChasingPacmanPlayerController>(PlayerState->GetOwner());
 
 				if (PlayerController) {
-					UE_LOG(LogTemp, Warning, TEXT("Pacman Lives Left %i"), PacmanLives);
 					PlayerController->SetPacmanLives(PacmanLives);
 				}
 			}
